@@ -35,12 +35,12 @@ export const request = (method, url, body, queryParameters, form, config) => {
  *                    A Simple Blog
  ==========================================================*/
 /**
- * Get all articles\' info except their contents of the user
+ * Get all articles' info except their contents of the user
  * request: GetArticlesOfUser
  * url: GetArticlesOfUserURL
  * method: GetArticlesOfUser_TYPE
  * raw_url: GetArticlesOfUser_RAW_URL
- * @param username - gjhj
+ * @param username - 
  */
 export const GetArticlesOfUser = function(parameters = {}) {
   const domain = parameters.$domain ? parameters.$domain : getDomain()
@@ -376,7 +376,7 @@ export const CreateArticleURL = function(parameters = {}) {
  * raw_url: CreateComment_RAW_URL
  * @param username - 
  * @param id - 
- * @param comment - 
+ * @param body - 
  */
 export const CreateComment = function(parameters = {}) {
   const domain = parameters.$domain ? parameters.$domain : getDomain()
@@ -393,11 +393,11 @@ export const CreateComment = function(parameters = {}) {
   if (parameters['id'] === undefined) {
     return Promise.reject(new Error('Missing required  parameter: id'))
   }
-  if (parameters['comment'] !== undefined) {
-    body = parameters['comment']
+  if (parameters['body'] !== undefined) {
+    body = parameters['body']
   }
-  if (parameters['comment'] === undefined) {
-    return Promise.reject(new Error('Missing required  parameter: comment'))
+  if (parameters['body'] === undefined) {
+    return Promise.reject(new Error('Missing required  parameter: body'))
   }
   if (parameters.$queryParameters) {
     Object.keys(parameters.$queryParameters).forEach(function(parameterName) {

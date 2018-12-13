@@ -12,7 +12,17 @@
 
 <script>
 export default {
-  name: 'navbar'
+  name: 'navbar',
+  data () {
+    return {
+      displaySignBtn: true
+    }
+  },
+  methods: {
+    onToggle () {
+      this.displaySignBtn = !this.displaySignBtn
+    }
+  }
 }
 </script>
 

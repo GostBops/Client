@@ -179,7 +179,7 @@ renderer.code = (code, lang) => {
   console.log(lang)
   if (lang === 'c' || lang === 'cpp') lang = 'clike'
   const highlight = Prism.highlight(code, Prism.languages[lang] || Prism.languages.javascript)
-  return `<pre class="lang-${escape(lang, true)}"><code class="lang-${escape(lang, true)}">${highlight}</code></pre>`
+  return `<pre class="code-block"><code class="lang-${escape(lang, true)}">${highlight}</code></pre>`
 }
 
 marked.setOptions({
@@ -220,3 +220,12 @@ export default {
   }
 }
 </script>
+
+<style>
+@import "../assets/prism.css";
+
+.code-block {
+  background-color: #f5f2f0;
+  padding: 5px;
+}
+</style>

@@ -6,7 +6,7 @@
                     label-for="username">
         <b-form-input id="username"
                       type="text"
-                      v-model="form.username"
+                      v-model="form.name"
                       required
                       placeholder="Enter name">
         </b-form-input>
@@ -21,14 +21,19 @@
                       placeholder="Enter password">
         </b-form-input>
       </b-form-group>
+      <div class="signin-tip">
+        You have got an account?
+        <router-link to="/signin">
+          Sign in
+        </router-link>
+        now.
+      </div>
+      <b-button-group class="my-btn-group">
+        <b-button class="my-btn" type="reset" variant="outline-danger">Reset</b-button>
+        <b-button class="my-btn" type="submit" variant="outline-primary">Signin</b-button> 
+      </b-button-group>
     </b-form>
-    <div class="signin-tip">
-      You have got an account?
-      <router-link to="/signin">
-        Sign in
-      </router-link>
-      now.
-    </div>
+    
   </div>
 </template>
 
@@ -45,11 +50,16 @@ export default {
   },
   methods: {
     onSubmit (evt) {
-      evt.preventDefault();
+      evt.preventDefault()
+      /* Use Api */
     },
     onReset (evt) {
-      evt.preventDefault();
-
+      evt.preventDefault()
+      this.form.name = ''
+      this.form.password = ''
+      /* Trick to reset/clear native browser form validation state */
+      this.show = false
+      this.$nextTick(() => { this.show = true })
     }
   }
 }
@@ -58,5 +68,14 @@ export default {
 <style>
 .signin-tip {
   text-align: right;
+}
+
+.my-btn-group {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.my-btn {
+  width: 50%;
 }
 </style>

@@ -30,7 +30,7 @@
       </div>
       <b-button-group class="my-btn-group">
         <b-button class="my-btn" type="reset" variant="outline-danger">Reset</b-button>
-        <b-button class="my-btn" type="submit" variant="outline-primary">Signin</b-button> 
+        <b-button class="my-btn" type="submit" variant="outline-primary">Signup</b-button> 
       </b-button-group>
     </b-form>
     

@@ -271,21 +271,16 @@ export const SignInURL = function(parameters = {}) {
  * url: CreateCommentURL
  * method: CreateComment_TYPE
  * raw_url: CreateComment_RAW_URL
- * @param username - 
  * @param id - 
  * @param body - 
  */
 export const CreateComment = function(parameters = {}) {
   const domain = parameters.$domain ? parameters.$domain : getDomain()
   const config = parameters.$config
-  let path = '/user/{username}/article/{id}/comment'
+  let path = '/article/{id}/comment'
   let body
   let queryParameters = {}
   let form = {}
-  path = path.replace('{username}', `${parameters['username']}`)
-  if (parameters['username'] === undefined) {
-    return Promise.reject(new Error('Missing required  parameter: username'))
-  }
   path = path.replace('{id}', `${parameters['id']}`)
   if (parameters['id'] === undefined) {
     return Promise.reject(new Error('Missing required  parameter: id'))
@@ -304,7 +299,7 @@ export const CreateComment = function(parameters = {}) {
   return request('post', domain + path, body, queryParameters, form, config)
 }
 export const CreateComment_RAW_URL = function() {
-  return '/user/{username}/article/{id}/comment'
+  return '/article/{id}/comment'
 }
 export const CreateComment_TYPE = function() {
   return 'post'
@@ -312,8 +307,7 @@ export const CreateComment_TYPE = function() {
 export const CreateCommentURL = function(parameters = {}) {
   let queryParameters = {}
   const domain = parameters.$domain ? parameters.$domain : getDomain()
-  let path = '/user/{username}/article/{id}/comment'
-  path = path.replace('{username}', `${parameters['username']}`)
+  let path = '/article/{id}/comment'
   path = path.replace('{id}', `${parameters['id']}`)
   if (parameters.$queryParameters) {
     Object.keys(parameters.$queryParameters).forEach(function(parameterName) {

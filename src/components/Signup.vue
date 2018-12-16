@@ -1,5 +1,19 @@
 <template>
   <div>
+    <b-alert :show="dismissCountDown"
+             dismissible
+             variant="success"
+             @dismiss-count-down="countDownChanged">
+      <h4 class="alert-heading">Sign up successfully!</h4>
+      <hr>
+      Auto jump to signin page in {{ dismissCountDown }} seconds...
+    </b-alert>
+    <b-alert variant="danger"
+             dismissible
+             :show="showErrorAlert"
+             @dismissed="showErrorAlert=false">
+      {{ errorMessage }}
+    </b-alert>
     <b-form @submit="onSubmit" @reset="onReset">
       <b-form-group id="usernameGroup"
                     label="Your Name:"
@@ -38,6 +52,8 @@
 </template>
 
 <script>
+import { SignUp } from '../vue-api-client.js'
+
 export default {
   name: 'signup',
   data () {
@@ -45,13 +61,34 @@ export default {
       form: {
         name: '',
         password: ''
-      }
+      },
+      errorMessage: '',
+      showErrorAlert: false,
+      dismissSecs: 3,
+      dismissCountDown: 0
     }
   },
   methods: {
     onSubmit (evt) {
       evt.preventDefault()
-      /* Use Api */
+      let me = this
+      SignUp({
+        $domain: 'http://127.0.0.1:10010',
+        body: {
+          username: me.form.name,
+          password: me.form.password
+        }
+      })
+      .then(function (res) {
+        me.showErrorAlert = false
+        me.dismissCountDown = me.dismissSecs
+      })
+      .catch(function (error) {
+        if (error.response) {
+          me.errorMessage = error.response.data.error
+          me.showErrorAlert = true
+        }
+      })
     },
     onReset (evt) {
       evt.preventDefault()
@@ -60,6 +97,12 @@ export default {
       /* Trick to reset/clear native browser form validation state */
       this.show = false
       this.$nextTick(() => { this.show = true })
+    },
+    countDownChanged (dismissCountDown) {
+      this.dismissCountDown = dismissCountDown
+      if (this.dismissCountDown === 0) {
+        this.$router.push('/signin')
+      }
     }
   }
 }

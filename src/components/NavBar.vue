@@ -1,28 +1,13 @@
 <template>
   <header class="header">
     <router-link to="/">Simple Blog</router-link>
-    <b-button variant="outline-secondary">
-      <router-link to="/signin">
-        Sign in
-      </router-link>
-    </b-button>
     <div style="clear: both"/>
   </header>
 </template>
 
 <script>
 export default {
-  name: 'navbar',
-  data () {
-    return {
-      displaySignBtn: true
-    }
-  },
-  methods: {
-    onToggle () {
-      this.displaySignBtn = !this.displaySignBtn
-    }
-  }
+  name: 'navbar'
 }
 </script>
 

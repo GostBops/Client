@@ -1,6 +1,20 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+    <b-alert :show="dismissCountDown"
+             dismissible
+             variant="success"
+             @dismiss-count-down="countDownChanged">
+      <h4 class="alert-heading">Sign in successfully!</h4>
+      <hr>
+      Auto jump to home page in {{ dismissCountDown }} seconds...
+    </b-alert>
+    <b-alert variant="danger"
+             dismissible
+             :show="showErrorAlert"
+             @dismissed="showErrorAlert=false">
+      {{ errorMessage }}
+    </b-alert>
+    <b-form @submit="onSubmit" @reset="onReset">
       <b-form-group id="usernameGroup"
                     label="Your Name:"
                     label-for="username">
@@ -37,6 +51,9 @@
 </template>
 
 <script>
+import { SignIn } from '../vue-api-client.js'
+import axios from 'axios'
+
 export default {
   name: 'signin',
   data () {
@@ -45,13 +62,35 @@ export default {
         name: '',
         password: ''
       },
-      show: true
+      errorMessage: '',
+      showErrorAlert: false,
+      dismissSecs: 3,
+      dismissCountDown: 0
     }
   },
   methods: {
     onSubmit (evt) {
       evt.preventDefault()
-      /* Use Api */
+      let me = this
+      SignIn({
+        $domain: 'http://127.0.0.1:10010',
+        body: {
+          username: me.form.name,
+          password: me.form.password
+        }
+      })
+      .then(function (res) {
+        document.cookie = 'username=' + me.form.name
+        document.cookie = 'token=' + res.data.token
+        me.showErrorAlert = false
+        me.dismissCountDown = me.dismissSecs
+      })
+      .catch(function (error) {
+        if (error.response) {
+          me.errorMessage = error.response.data.error
+          me.showErrorAlert = true
+        }
+      })
     },
     onReset (evt) {
       evt.preventDefault()
@@ -60,6 +99,12 @@ export default {
       /* Trick to reset/clear native browser form validation state */
       this.show = false
       this.$nextTick(() => { this.show = true })
+    },
+    countDownChanged (dismissCountDown) {
+      this.dismissCountDown = dismissCountDown
+      if (this.dismissCountDown === 0) {
+        this.$router.push('/')
+      }
     }
   }
 }

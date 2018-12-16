@@ -72,8 +72,18 @@ export default {
     onSubmit (evt) {
       evt.preventDefault()
       let me = this
+      // axios({
+      //   method: 'post',
+      //   url: '/auth/signin',
+      //   baseURL: 'http://localhost:8080/v3/',
+      //   data: {
+      //     body: {
+      //       username: me.form.name,
+      //       password: me.form.password
+      //     }
+      //   }
+      // })
       SignIn({
-        $domain: 'http://127.0.0.1:10010',
         body: {
           username: me.form.name,
           password: me.form.password
@@ -90,6 +100,8 @@ export default {
           me.errorMessage = error.response.data.error
           me.showErrorAlert = true
         }
+        console.log(error);
+        
       })
     },
     onReset (evt) {

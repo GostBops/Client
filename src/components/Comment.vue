@@ -76,11 +76,14 @@ export default {
     loadCommentsList () {
       let me = this
       GetCommentsOfArticle({
-        $domain: 'http://127.0.0.1:10010',
         id: me.id
       })
       .then(function (res) {
-        me.commentsList = res.data
+        if (res.data.content === null) {
+          me.commentsList = []
+          return
+        }
+        me.commentsList = res.data.content
       })
       .catch(function (error) {
         if (error.response) {
@@ -96,7 +99,6 @@ export default {
       
       /* Submit comment */
       CreateComment({
-        $domain: 'http://127.0.0.1:10010',
         $config: {
           headers: {
             'Authorization': token
@@ -111,6 +113,10 @@ export default {
       .then(function (res) {
         me.loadCommentsList()
         me.text = ''
+      })
+      .catch(function (err) {
+        console.log(err);
+        
       })
     },
     onReset (evt) {

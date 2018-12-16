@@ -64,14 +64,16 @@ export default {
     loadPost () {
       let me = this      
       GetArticleById({
-        $domain: 'http://127.0.0.1:10010',
         id: me.id
       })
       .then(function (res) {
-        let article = res.data
-        const content = fm(article.content)
-        me.content = content.body
-        me.title = content.attributes.title
+        me.content = res.data.content
+        
+        // let article = res.data.content
+        // const content = fm(article.content)
+        // console.log(content);
+        // me.content = content.body
+        // me.title = content.attributes.title
       })
       .catch(function (error) {
         if (error.response) {

@@ -11,13 +11,13 @@
         v-else
         class="list">
         <li
-          v-for="{ title, id } in postsList"
+          v-for="{ name, id } in postsList"
           :key="id"
           class="list-item">
           <router-link 
             :to="'/post/' + id"
             class="item-title">
-            {{ title }}
+            {{ name }}
           </router-link>
         </li>
       </ol>
@@ -78,48 +78,7 @@ export default {
       listSize: 4,
       totalArticles: 100,
       totalPages: 0,
-      postsList: [
-        {
-          id: 1,
-          title: 'Post #1'
-        },
-        {
-          id: 2,
-          title: 'Post #2'
-        },
-        {
-          id: 3,
-          title: 'Post #3'
-        },
-        {
-          id: 4,
-          title: 'Post #4'
-        },
-        {
-          id: 5,
-          title: 'Post #5'
-        },
-        {
-          id: 6,
-          title: 'Post #6'
-        },
-        {
-          id: 7,
-          title: 'Post #7'
-        },
-        {
-          id: 8,
-          title: 'Post #8'
-        },
-        {
-          id: 9,
-          title: 'Post #9'
-        },
-        {
-          id: 10,
-          title: 'Post #10'
-        },
-      ],
+      postsList: [],
       loading: false
     }
   },
@@ -131,15 +90,13 @@ export default {
       this.currentPage = pageNo
       let me = this
       GetArticles({
-        $domain: 'http://127.0.0.1:10010',
         page: me.currentPage
       })
       .then(function(res){
-        let posts = res.data
-        for(var i = 0; i < 10; i++) {
-          me.postsList[i].id = posts.Articles[i].id
-          me.postsList[i].title = posts.Articles[i].title
-        }
+        me.postsList = res.data.articles
+      })
+      .catch(function(err) {
+        me.postsList = []
       })
     }
   },
@@ -173,6 +130,13 @@ export default {
   },
   created: function() {
     this.totalPages = Math.ceil(this.totalArticles / this.listSize)
+    let me = this
+    GetArticles({
+      page: 1
+    })
+    .then(function(res){
+      me.postsList = res.data.articles
+    })
   }
 }
 </script>

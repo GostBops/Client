@@ -1,7 +1,7 @@
 /* eslint-disable */
 import axios from 'axios'
 import qs from 'qs'
-let domain = 'https://blog.swagger.io/v3'
+let domain = 'http://localhost:8080/v3'
 let axiosInstance = axios.create()
 export const getDomain = () => {
   return domain

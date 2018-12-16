@@ -73,7 +73,6 @@ export default {
       evt.preventDefault()
       let me = this
       SignUp({
-        $domain: 'http://127.0.0.1:10010',
         body: {
           username: me.form.name,
           password: me.form.password

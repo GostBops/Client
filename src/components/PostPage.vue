@@ -2,6 +2,7 @@
   <div>
     <section class="post-view">
     <div v-if="!content">Loading..</div>
+    <h1>{{ title }}</h1>
     <article
       v-if="content"
       v-html="htmlFromMarkdown"/>
@@ -67,6 +68,8 @@ export default {
         id: me.id
       })
       .then(function (res) {
+        console.log(res.data);
+        me.title = res.data.name
         me.content = res.data.content
         
         // let article = res.data.content
